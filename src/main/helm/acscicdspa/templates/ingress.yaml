@@ -20,6 +20,14 @@ spec:
     - host: {{ $host }}
       http:
         paths:
+          - path: /api/todo
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
+          - path: /api/like
+            backend:
+              serviceName: {{ $serviceName }}
+              servicePort: {{ $servicePort }}
           - path: /
             backend:
               serviceName: {{ $serviceName }}
