@@ -21,12 +21,12 @@ spec:
         paths:
           - path: /api/todo
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              serviceName: {{ .Values.service.resttodoname }}
+              servicePort: {{ .Values.service.resttodoport }}
           - path: /api/like
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
+              serviceName: {{ .Values.service.restlikename }}
+              servicePort: {{ .Values.service.restlikeport }}
           - path: /
             backend:
               serviceName: {{ $serviceName }}

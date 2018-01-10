@@ -11,6 +11,10 @@ service:
   name: web
   internalPort: 8080
   externalPort: 8080
+  restlikename: myrelease-acscicdlike
+  restlikeport: 8080
+  resttodoname: myrelease-acscicdtodo
+  resttodoport: 8080
 ingress:
   enabled: true
   # Used to create Ingress record (should used with service.type: ClusterIP).

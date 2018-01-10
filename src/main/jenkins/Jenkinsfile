@@ -3,6 +3,7 @@
     def label = "buildpod.${env.JOB_NAME}.${env.BUILD_NUMBER}".replace('-', '_').replace('/', '_')
 
     //Lets create a new pod template with jnlp and maven containers, that uses that label.
+    def myimagename = 'acscicdspa'
     podTemplate(label: label, containers: [
             containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, privileged: true, command: 'cat'),     
             containerTemplate(name: 'maven', image: 'maven', ttyEnabled: true, command: 'cat'),     
@@ -33,10 +34,10 @@
                     dir('target'){
                         container(name: 'docker') {
                           sh "docker login -p "+env.PASSWORD+" -u "+env.USERNAME+" " + params.acr
-                          sh "docker build -t "+params.acr+"/"+params.imagename+":${env.BUILD_NUMBER} ."
-                          sh "docker tag "+params.acr+"/"+params.imagename+":${env.BUILD_NUMBER} "+params.acr+"/"+params.imagename+":latest"
-                          sh "docker push "+params.acr+"/"+params.imagename+":latest"
-                          sh "docker push "+params.acr+"/"+params.imagename+":${env.BUILD_NUMBER}"
+                          sh "docker build -t "+params.acr+"/"+myimagename+":${env.BUILD_NUMBER} ."
+                          sh "docker tag "+params.acr+"/"+myimagename+":${env.BUILD_NUMBER} "+params.acr+"/"+myimagename+":latest"
+                          sh "docker push "+params.acr+"/"+myimagename+":latest"
+                          sh "docker push "+params.acr+"/"+myimagename+":${env.BUILD_NUMBER}"
                         }
                     }
                 }
@@ -46,9 +47,9 @@
                     }
                     dir('target'){
                         container(name: 'helm') {
-                            def overrides = "image.repository='"+params.acr+"/"+params.imagename+"',image.tag=${env.BUILD_NUMBER},track=stable,branchName='"+params.gitbranch+"',branchSubdomain='',ingress.host='vkube.southcentralus.cloudapp.azure.com'"
-                            def releaseName = "myrelease"
-                            def chart_dir = "acscicdspa"
+                            def overrides = "image.repository='"+params.acr+"/"+myimagename+"',image.tag=${env.BUILD_NUMBER},track=stable,branchName='"+params.gitbranch+"',branchSubdomain='',ingress.host='vkube.southcentralus.cloudapp.azure.com'"
+                            def releaseName = params.releasename
+                            def chart_dir = myimagename
                             
                             sh "helm init"
                             sh "helm version"
