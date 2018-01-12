@@ -13,6 +13,7 @@ angular.module('myApp.home', ['ngRoute', 'ui.bootstrap'])
 
     $scope.data = {
         item: { comment: "", category: "" },
+        itemlike: { id: "", count: 0 },
         items: null,
         comments: null,
         isedit: false
@@ -37,6 +38,19 @@ angular.module('myApp.home', ['ngRoute', 'ui.bootstrap'])
     $scope.editItem = function(item) {
         $scope.data.isedit = true;
         $scope.data.item = item;
+        $scope.data.itemlike.id = item.id;
+        myUtils.showPleaseWait();
+        $http.post('./api/like/Like', $scope.data.itemlike).success(function(data) {
+            $scope.data.itemlike = data;
+        }).finally(function(data) {
+            myUtils.hidePleaseWait();
+        });
+    };
+
+    $scope.editItemLike = function() {
+        $http.post('./api/like/LikeAdd', $scope.data.itemlike).success(function(data) {}).finally(function(data) {
+            $scope.data.itemlike = data;
+        });
     };
 
     $scope.editItemSave = function(item) {
