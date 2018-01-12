@@ -48,9 +48,9 @@ angular.module('myApp.home', ['ngRoute', 'ui.bootstrap'])
     };
 
     $scope.editItemLike = function() {
-        $http.post('./api/like/LikeAdd', $scope.data.itemlike).success(function(data) {}).finally(function(data) {
+        $http.post('./api/like/LikeAdd', $scope.data.itemlike).success(function(data) {
             $scope.data.itemlike = data;
-        });
+        }).finally(function(data) {});
     };
 
     $scope.editItemSave = function(item) {
