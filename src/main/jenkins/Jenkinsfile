@@ -73,7 +73,7 @@
                     }
                     dir('target'){
                         container(name: 'helm') {
-                            def overrides = "image.repository='"+params.acr+"/"+myimagename+"',image.tag=${env.BUILD_NUMBER},track=stable,branchName='"+params.gitbranch+"',branchSubdomain='',ingress.host='vkube.southcentralus.cloudapp.azure.com'"
+                            def overrides = "image.repository='"+params.acr+"/"+myimagename+"',image.tag=${env.BUILD_NUMBER},track=stable,branchName='"+params.gitbranch+"',branchSubdomain='',ingress.host='"+params.ingressdns+"',ingress.restlikename='"+params.ingresslikesvc+"',ingress.resttodoname='"+params.ingresstodosvc+"'"
                             def releaseName = params.releasename
                             def chart_dir = myimagename
                             
