@@ -19,6 +19,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.imagePullSecrets }}
+          imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 10 }}
+          {{- end }}
           env:
             - name: APPLICATION_INSIGHTS_IKEY
               valueFrom:
@@ -36,8 +40,6 @@ spec:
               path: /
               port: {{ .Values.service.internalPort }}
           resources:
-      imagePullSecrets:
-        - name: "{{ .Values.image.repository }}"
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
