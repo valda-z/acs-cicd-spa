@@ -19,10 +19,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.imagePullSecrets }}
-          imagePullSecrets:
-            -name: {{ .Values.imagePullSecrets }}
-          {{- end }}
           env:
             - name: APPLICATION_INSIGHTS_IKEY
               valueFrom:
@@ -45,3 +41,7 @@ spec:
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        -name: {{ .Values.imagePullSecrets }}
+      {{- end }}
