@@ -27,12 +27,12 @@
                 stage('Maven build') {
                     //Run shell commands in the 'maven' container...            
                     container(name: 'maven') {
-                      sh 'mvn clean package'
+                      sh 'mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package'
                     }
                 }
                 container(name: 'maven') {
                     stage('SonarQube analysis') {
-                        sh 'mvn -Dsonar.host.url=' + params.sonarurl +' -Dsonar.login=' + params.sonarkey + ' org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+                        sh 'mvn -Dmaven.test.failure.ignore=false -Dsonar.host.url=' + params.sonarurl +' -Dsonar.login=' + params.sonarkey + ' org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
                     }
                     stage("Quality Gate"){
                         def props = readProperties file: 'target/sonar/report-task.txt'
