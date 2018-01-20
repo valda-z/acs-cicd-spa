@@ -42,6 +42,14 @@
             <artifactId>applicationinsights-logging-logback</artifactId>
             <version>[1.0,)</version>
         </dependency>
+
+		<!-- dependency for running tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
     <properties>
